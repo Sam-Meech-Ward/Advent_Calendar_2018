@@ -1,6 +1,10 @@
 #include <Arduino.h>
 
 #include "time_serial.h"
+#include "date_helper.h"
+#include "rom.h"
+
+int daysToUnlock();
 
 void setup() {
   TimeSerial::setup();
@@ -10,17 +14,31 @@ void setup() {
 }
 
 void loop() {
+  
+
   digitalWrite(LED_BUILTIN, HIGH);
+
+  delay(500); 
 
   TimeSerial::syncTime();
 
-  delay(500);
-
-  if (TimeSerial::timeIsSet()) {
-    Serial.println(year());
-  } else {
+  if (!TimeSerial::timeIsSet()) {
     digitalWrite(LED_BUILTIN, LOW);
+    delay(500);
+    return;
   }
 
-   delay(500);  
+  delay(500);  
+
+  int days = daysToUnlock();  
+}
+
+int daysToUnlock() {
+  int day = Rom::getDay();
+  int month = Rom::getMonth();
+  int days = DateHelper::daysSinceDecemberDay(day, month);
+  if (days > 0) {
+    Rom::updateDate();
+  }
+  return days;
 }

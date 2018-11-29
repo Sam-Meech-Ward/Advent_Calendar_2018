@@ -12,8 +12,11 @@ boolean isDecember2018() {
   return true;
 }
 
-int DateHelper::daysSinceDecemberDay(int d) {
+int DateHelper::daysSinceDecemberDay(int d, int m) {
   if (!isDecember2018()) {
+    return -1;
+  }
+  if (m < 12) {
     return -1;
   }
 

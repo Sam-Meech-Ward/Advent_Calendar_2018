@@ -1,11 +1,19 @@
+#include "rom.h"
+
 #include <EEPROM.h>
 
-static int addr = 0;
 
-void updateDay(int day) {
-  EEPROM.write(addr, day);
+constexpr int dayAddr = 0;
+constexpr int monthAddr = 0;
+
+void Rom::updateDate() {
+  EEPROM.write(dayAddr, day());
+  EEPROM.write(monthAddr, month());
 }
 
-int getDay() {
-  return EEPROM.read(addr);
+int Rom::getDay() {
+  return EEPROM.read(dayAddr);
+}
+int Rom::getMonth() {
+  return EEPROM.read(monthAddr);
 }
