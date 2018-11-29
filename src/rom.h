@@ -7,6 +7,12 @@ namespace Rom {
   void updateDate();
   int getDay();
   int getMonth();
+  
+  // motor state
+  int motorDay();
+  void setMotorDay(int day);
+
+  void reset();
 };
 
 #endif
