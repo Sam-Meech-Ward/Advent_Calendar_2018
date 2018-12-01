@@ -1,6 +1,8 @@
 #include "CalendarMotors.h"
 
 constexpr int totalDaysInRow = 11;
+// We're going away for a few days in the middle of december
+constexpr int totalDaysToSkipBetweenRows = 4;
 
 void CalendarMotors::setup() {
   pinMode(bottomMotor.directionPin, OUTPUT); 
@@ -28,6 +30,10 @@ void CalendarMotors::moveMotor(CalendarMotor motor, int days) {
   }
 }
 
+static int maximum(int a, int b) {
+  return (a > b) ? a : b;
+}
+
 void CalendarMotors::unlockDays(int days) {
   Serial.print("Current DAy");
   Serial.println(currentDay);
@@ -37,16 +43,22 @@ void CalendarMotors::unlockDays(int days) {
   if (currentDay <= totalDaysInRow) {
     // top
     topDays = days;
-
+    
     int overflow = (currentDay + days) - totalDaysInRow;
-    if (overflow > 0) {
+    if (overflow > 0 && overflow < totalDaysToSkipBetweenRows) {
+      topDays = totalDaysInRow;
+    } else if (overflow > 0) {
       // both
-      bottomDays = overflow;
-      topDays = days - bottomDays;
+      bottomDays = maximum(overflow-totalDaysToSkipBetweenRows, 0);
+      topDays = days - bottomDays - totalDaysToSkipBetweenRows;
     }
-  } else if (currentDay <= totalDaysInRow*2) {
+  } else if (currentDay <= totalDaysInRow*2+totalDaysToSkipBetweenRows) {
     // bottom
-    bottomDays = days;
+    if (currentDay < totalDaysInRow+totalDaysToSkipBetweenRows) {
+      bottomDays = maximum(currentDay+days-totalDaysToSkipBetweenRows-totalDaysInRow, 0);
+    } else {
+      bottomDays = days;
+    }
   }
 
   Serial.print("move the top motor: ");
