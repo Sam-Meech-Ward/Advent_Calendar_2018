@@ -6,7 +6,7 @@ boolean isDecember2018() {
     return false;
   }
 
-  if (month() != 11) {
+  if (month() != 12) {
     return false;
   }
 
@@ -14,6 +14,8 @@ boolean isDecember2018() {
 }
 
 boolean isPastMidDay() {
+  Serial.print("Hour: ");
+  Serial.println(hour());
   if (hour() < 12) {
     return false;
   }
@@ -22,6 +24,7 @@ boolean isPastMidDay() {
 }
 
 int DateHelper::daysToUnlock() {
+  
   if (!isDecember2018()) {
     return -1;
   }
@@ -31,8 +34,12 @@ int DateHelper::daysToUnlock() {
     return 0;
   }
 
-  int currentDay = day();
   int currentMonth = month();
+  if (currentMonth < 12) {
+    return 0;
+  }
+
+  int currentDay = day();
 
   int savedDay = Rom::getDay();
   int savedMonth = Rom::getMonth();
