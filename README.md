@@ -1,6 +1,6 @@
 # Advent Calendar 2018
 
-This is the code that runs on the Arduino UNO for my [2018 Advent Calendar Project](* https://sammeechward.com) and the [Computer Serial](* https://github.com/Sam-Meech-Ward/Calendar_Computer_Serial) code.
+This is the code that runs on the Arduino UNO for my [2018 Advent Calendar Project](/youtube-projects/advent-calendar-2018) and the [Computer Serial](https://github.com/Sam-Meech-Ward/Calendar_Computer_Serial) code.
 
 This is basically how the app works:
 
